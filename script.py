@@ -18,8 +18,9 @@ def process_id():
 	for process in psutil.pids():
 		p = psutil.Process(process)
 		ids = colored(process,'green', attrs=['bold'])
-		names = colored(p.name(),'cyan',attrs=['bold']) 
-		print('Process ID: ' + ids +' Name: ' + names)
+		names = colored(p.name(),'cyan',attrs=['bold'])
+		mem_usage = colored(p.memory_percent(), 'red',attrs=['bold']) 
+		print('Process ID: ' + ids +' Name: ' + names+ ' mem_usage: '+mem_usage)
 
 process_id()
 
