@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 psutil = "*"
 docopt = "==0.6.2"
+ptable = "*"
 
 [dev-packages]
 
