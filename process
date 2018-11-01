@@ -1,18 +1,22 @@
 #! /usr/bin/env python3
-"""Unix Processes.
+"""Unix Processes
 
 Usage:
-  basic.py hello 
-  basic.py goodbye <name>
-  basic.py add <x>
-  basic.py (-h | --help)
+  process look  <pid>
+  process (-l | --list)
+  process (-h | --help)
+  process graph <pid>
 
 Options:
   -h --help     Show this screen.
+  -l --list     Lists the processes running
+  look        lookup specific pid
+  graph       Generate specific pid cpu usage bar graph of 10 intervals
+
 
 """
-# from docopt import docopt
-import psutil
+from docopt import docopt
+import psutil,subprocess
 from termcolor import colored, cprint
 
 
@@ -21,10 +25,10 @@ def process_id():
 		p = psutil.Process(process)
 		ids = colored(process,'green', attrs=['bold'])
 		names = colored(p.name(),'cyan',attrs=['bold'])
-		mem_usage = colored(p.memory_percent(), 'red',attrs=['bold']) 
+		mem_usage = colored(round(p.memory_percent()*10,2), 'red',attrs=['bold']) 
 		print('Process ID: ' + ids +' Name: ' + names+ ' mem_usage: '+mem_usage)
 
-# process_id()
+
 
 def process_lookup(x):
   for process in psutil.pids():
@@ -45,38 +49,24 @@ def process_lookup(x):
       print(colored(var[9],'green', attrs=['bold'])+" "+str(proc.cpu_percent(interval=1))+"%")
 
 
-      
 
-process_lookup(2699)
+def cpu_usage_graph(process):
+  p = psutil.Process(process)
+  with open("cpu_usage.dat","w") as f:
+    for nums in range(1,11):
+      print(str(nums) + " " + str(p.cpu_percent(interval=nums)),file=f)
 
+  print("CPU USAGE:" + p.name())
+  subprocess.call(['termgraph', 'cpu_usage.dat'])
 
-# def setups():
-#   for exe in psutil.pids():
-#     x = psutil.Process(exe)
-#     print(x.cpu_percent(interval=2.0))
+# Commandline logic 
+if __name__ == '__main__':
+    arguments = docopt(__doc__)
 
-# setups()
-
-
-
-
-# text = colored('Hello, World!', 'green', attrs=[ 'blink','bol'])
-# print(text)
-# cprint('Hello, World!', 'green', 'on_red')
-
-
-
-
-
-
-
-# def hello():
-# 	print("Hello")
-
-# #Commandline logic
-# if __name__ == '__main__':
-#     arguments = docopt(__doc__)
-
-#     # if an argument called hello was passed, execute the hello logic.
-#     if arguments['hello']:
-#     	process_id()
+    # if an argument called hello was passed, execute the hello logic.
+    if arguments['--list']:
+      process_id()
+    elif arguments['look']:
+      process_lookup(int(arguments['<pid>']))
+    elif arguments['graph']:
+      cpu_usage_graph(int(arguments['<pid>']))
