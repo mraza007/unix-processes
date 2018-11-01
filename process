@@ -11,9 +11,11 @@ Options:
   -h --help     Show this screen.
 
 """
-from docopt import docopt
+# from docopt import docopt
 import psutil
 from termcolor import colored, cprint
+
+
 def process_id():
 	for process in psutil.pids():
 		p = psutil.Process(process)
@@ -24,8 +26,36 @@ def process_id():
 
 # process_id()
 
+def process_lookup(x):
+  for process in psutil.pids():
+    proc = psutil.Process(x)
+    var = ['pid','name','parent','exe','cwd','user','status',
+    'cpu-times','mem %','cpu %']
+    mem = round(proc.memory_percent()*10,2)
+    if process == x:
+      print(colored(var[0],'green', attrs=['bold'])+" "+str(proc.pid))
+      print(colored(var[1],'green', attrs=['bold'])+" "+str(proc.name()))
+      print(colored(var[2],'green', attrs=['bold'])+" "+str(proc.ppid()))
+      print(colored(var[3],'green', attrs=['bold'])+" "+str(proc.exe()))
+      print(colored(var[4],'green', attrs=['bold'])+" "+str(proc.cwd()))
+      print(colored(var[5],'green', attrs=['bold'])+" "+str(proc.username()))
+      print(colored(var[6],'green', attrs=['bold'])+" "+str(proc.status()))
+      print(colored(var[7],'green', attrs=['bold'])+" "+str(proc.cpu_times()))
+      print(colored(var[8],'green', attrs=['bold'])+" "+str(mem)+'%')
+      print(colored(var[9],'green', attrs=['bold'])+" "+str(proc.cpu_percent(interval=1))+"%")
 
 
+      
+
+process_lookup(2699)
+
+
+# def setups():
+#   for exe in psutil.pids():
+#     x = psutil.Process(exe)
+#     print(x.cpu_percent(interval=2.0))
+
+# setups()
 
 
 
@@ -40,13 +70,13 @@ def process_id():
 
 
 
-def hello():
-	print("Hello")
+# def hello():
+# 	print("Hello")
 
-#Commandline logic
-if __name__ == '__main__':
-    arguments = docopt(__doc__)
+# #Commandline logic
+# if __name__ == '__main__':
+#     arguments = docopt(__doc__)
 
-    # if an argument called hello was passed, execute the hello logic.
-    if arguments['hello']:
-    	process_id()
+#     # if an argument called hello was passed, execute the hello logic.
+#     if arguments['hello']:
+#     	process_id()
