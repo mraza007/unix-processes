@@ -12,6 +12,7 @@ A simple script that allows you to see unix/linux/mac processes with the name an
 - To look up a process `process look <pid>` and this will print specific details of the process.
 - To generate the cpu_usage bar graph of specific `pid` use this command `graph <pid>`
 
-**Note**:In order to generate a cpu usage graph install `pip3 install termgraph ` and add to the path.
-
+**Note**:In order to generate a cpu usage graph install `pip3 install termgraph ` and add to the path. and it might take a little longer to generate the graph.
+**Some Processes might require root permission when looking up `<pid>`**
 ##### Terminal Cast
+[![asciicast](https://asciinema.org/a/UtFDMk6jMEzySFRzSPFVMSNS7.png)](https://asciinema.org/a/UtFDMk6jMEzySFRzSPFVMSNS7)
